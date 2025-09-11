@@ -222,7 +222,6 @@ int main()
          << version;
     cout << endl;
     stop;
-    // TODO:
     //  В окне ClassView или Solution Explorer поставьте фокус на имя проекта дайте команду Project/Properties.
     //	В диалоге Property Pages щелкните на папке Configuration Properties, убедитесь, что в разделе Code Generation
     //	установлена константа компиляции _DEBUG. Создайте директивы препроцессора и код С++, которые
@@ -246,7 +245,7 @@ int main()
         while (us)
         {
             cout << hex << us << endl;
-            us &= us - 1;
+            us &= us - 1; // * обнуляем самый младший бит
         }
         cout << hex << us << "\nDone\n";
         // Цикл for надо использовать, когда известно количество итераций и/или есть код подготовки.
@@ -254,7 +253,7 @@ int main()
         cout << "\n\nShow even-odd:\n\n";
         for (int i = 0; i < 10; i++)
         {
-            if (i & 1)
+            if (i & 1) // * последний бит – единица
                 cout << i << " - odd\n";
             else
                 cout << i << " - even\n";
