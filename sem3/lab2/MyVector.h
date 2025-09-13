@@ -1,13 +1,42 @@
-﻿class Vector
+﻿#pragma once
+#include "Shape.h"
+
+class Vector : public Shape
 {
 private:
-	double x, y;	// Координаты вектора на плоскости
+    double x, y; // Координаты вектора на плоскости
 public:
-	//========== Три конструктора
-	Vector (double c1, double c2);
-	Vector ();							// Default
-	
-	//====== Переопределение операций =====//
-	Vector& operator= (const Vector& v);	// Присвоение
-	void Out();
+    //========== Три конструктора
+    Vector(double c1, double c2);
+    Vector(); // Default
+
+    //========== Copy constructor
+    Vector(const Vector &v);
+
+    bool Equals(const Vector &other);
+
+    double operator*(Vector &other) const;
+
+    double GetX();
+    double GetY();
+
+    void Move(Vector &v);
+    void Out();
+    double Area();
+
+    ~Vector();
+
+    //====== Переопределение операций =====//
+    Vector &operator=(const Vector &v); // Присвоение
+
+    Vector operator+(const Vector &other);
+
+    double operator!() const;
+
+    bool operator>(const Vector &other) const;
+    bool operator==(const Vector &other) const;
+
+    Vector operator*(double scalar) const;
+
+    friend Vector operator*(double scalar, const Vector &v);
 };

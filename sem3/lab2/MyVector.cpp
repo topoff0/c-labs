@@ -1,28 +1,98 @@
 ﻿#include "stdafx.h"
 #include "MyVector.h"
 
-
-Vector::Vector (double c1, double c2)
+Vector::Vector(double c1, double c2)
 {
-	x=c1;   y=c2;
+    x = c1;
+    y = c2;
 }
 
-Vector::Vector ()
+Vector::Vector()
 {
-	x = y = 0.;
+    x = y = 0.;
+}
+
+Vector::Vector(const Vector &v)
+{
+    *this = v;
+}
+
+bool Vector::Equals(const Vector &other)
+{
+    return x == other.x && y == other.y;
+}
+
+double Vector::operator*(Vector &other) const
+{
+    return x * other.x + y * other.y;
+}
+
+double Vector::GetX()
+{
+    return x;
+}
+
+double Vector::GetY()
+{
+    return y;
+}
+
+void Vector::Move(Vector &v)
+{
+    x += v.GetX();
+    y += v.GetY();
 }
 
 void Vector::Out()
 {
-	cout << "\nVector:  x = " << x << ",  y = " << y;
+    cout << "\nVector:  x = " << x << ",  y = " << y;
+}
+
+double Vector::Area()
+{
+    return 0.0;
+}
+
+Vector::~Vector()
+{
 }
 
 //====== Переопределение операций =====//
-Vector& Vector::operator= (const Vector& v)	// Присвоение
+Vector &Vector::operator=(const Vector &v) // Присвоение
 {
-	if (this == &v)
-		return *this;
-	x = v.x;
-	y = v.y;
-	return *this;
+    if (this == &v)
+        return *this;
+    x = v.x;
+    y = v.y;
+    return *this;
+}
+
+Vector Vector::operator+(const Vector &other)
+{
+    return Vector(x + other.x, y + other.y);
+}
+
+double Vector::operator!() const
+{
+    return sqrt(x * x + y * y);
+}
+
+bool Vector::operator>(const Vector &other) const
+{
+    return !(*this) > !other;
+}
+
+bool Vector::operator==(const Vector &other) const
+{
+    return fabs(!(*this) - !other) < __DBL_EPSILON__;
+}
+
+Vector Vector::operator*(double scalar) const
+{
+    return Vector(x * scalar, y * scalar);
+}
+
+Vector operator*(double scalar, const Vector &v)
+{
+    return Vector(scalar * v.x, scalar * v.y);
 }
