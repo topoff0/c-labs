@@ -567,9 +567,6 @@ target_wrapper.*
 *.qmlproject.user
 *.qmlproject.user.*
 
-# QtCreator CMake
-CMakeLists.txt.user*
-
 # QtCreator 4.8< compilation database 
 compile_commands.json
 
@@ -957,7 +954,6 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 ##### CMake
-CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
 CMakeScripts
