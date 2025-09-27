@@ -15,8 +15,6 @@ public:
 
     bool Equals(const Vector &other);
 
-    double operator*(Vector &other) const;
-
     double GetX();
     double GetY();
 
@@ -37,6 +35,7 @@ public:
     bool operator==(const Vector &other) const;
 
     Vector operator*(double scalar) const;
+    double operator*(Vector &other) const;
 
     friend Vector operator*(double scalar, const Vector &v);
 };

@@ -73,12 +73,12 @@ int main()
     cout << "\n\n\tTest Vector operator+\n";
 
     Vector d;
-    d = a + b;
+    d = a + b; // * оператор присваивания
 
     d.Out();
 
     // Убедитесь, что конструктор копирования вызывается в этом фрагменте.
-    Vector e = a + b;
+    Vector e = a + b; // * конструктор копирования
 
     cout << "\n\n\tTest Vector copy constructor\n";
     e.Out();
