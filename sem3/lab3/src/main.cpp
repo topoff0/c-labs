@@ -4,6 +4,8 @@
 //=======================================================================
 // Используйте недостающие файлы из лабораторной 2
 #include <string>
+#include <list>
+using std::list;
 using std::string;
 
 #include "MyVector.h"
@@ -28,6 +30,18 @@ void pr(T &v, string s)
         cout << endl
              << i + 1 << ". " << *p;
     cout << '\n';
+}
+
+void printList(const list<Vector> &l, const string &s = "")
+{
+    if (!s.empty())
+        cout << BLUE << s << ":"
+             << RESET;
+    for (list<Vector>::const_iterator it = l.begin(); it != l.end(); it++)
+    {
+        it->Out();
+    }
+    cout << endl;
 }
 
 template <typename T>
@@ -131,6 +145,7 @@ int main()
     {
         o.Out();
     }
+    cout << endl;
 
     //=======================================================================
     // Контейнеры стандартной библиотеки. Последовательности типа vector
@@ -143,14 +158,19 @@ int main()
     // элементов (size()) узнать максимально возможное количество элементов (max_size()),
     // а также зарезервированную память (capacity()).
 
+    cout << PURPLE << "\n======== Vector<int> ========\n"
+         << RESET << endl;
     vector<int> v;
     int n = v.size();
+    cout << BLUE << "Current size of v = " << n << RESET << endl;
     v.push_back(-1);
     v.push_back(-2);
     n = v.size();
+    cout << BLUE << "Now there are 2 elements in v and size = " << n << RESET << endl;
     n = v.capacity();
-    n = v.max_size();
-
+    cout << BLUE << "Current capacity of v: " << n << RESET << endl;
+    // n = v.max_size();
+    cout << BLUE << "Current max_size of v: " << v.max_size() << RESET << endl;
     // Так как мы часто будем выводить последовательности, то целесообразно
     // создать шаблон функции для вывода любого контейнера.
     // Проанализируйте коды такого шаблона (pr), который приведен выше
@@ -163,194 +183,349 @@ int main()
     // Проверим параметры вектора. Затем изменим размер вектора и его заполнение
     // (метод - resize()) и вновь проверим параметры.
 
-    // // vector<double> vd
-    // pr(vd, "Vector of doubles");
-    // n = vd.size();
-    // n = vd.capacity();
-    // n = vd.max_size();
+    cout << PURPLE << "\n======== Vector<double> ========\n"
+         << RESET << endl;
+    vector<double> vd(2, 222.);
+    pr(vd, "Vector of doubles");
+    cout << BLUE << "After creation with size 2 and value 222.0:" << RESET << endl;
+    cout << "Size: " << vd.size() << endl;
+    cout << "Capacity: " << vd.capacity() << endl;
+    cout << "max_size: " << vd.max_size() << endl;
 
-    // pr(vd, "After resize");
-    // n = vd.size();
-    // n = vd.capacity();
-    // n = vd.max_size();
+    vd.resize(5, 111.);
+    pr(vd, "After resize");
+    cout << BLUE << "After resize with size 5 and value 111.0:" << RESET << endl;
+    cout << "Size: " << vd.size() << endl;
+    cout << "Capacity: " << vd.capacity() << endl;
+    cout << "max_size: " << vd.max_size() << endl;
 
-    // // Используя метод at(), а также операцию выбора [], измените значения
-    // // некоторых элементов вектора и проверьте результат.
-    // pr(vd, "After at");
+    // Используя метод at(), а также операцию выбора [], измените значения
+    // некоторых элементов вектора и проверьте результат.
+    vd[1] = 888.0;
+    vd.at(2) = 999.0;
+    pr(vd, "After at");
 
-    // // Создайте вектор вещественных, который является копией существующего.
-    // pr(wd, "Copy");
+    // Создайте вектор вещественных, который является копией существующего.
+    vector<double> wd(vd);
+    pr(wd, "Copy");
 
-    // // Создайте вектор, который копирует часть существующей последовательности
-    // // vector<double> ud
-    // pr(ud, "Copy part");
+    // Создайте вектор, который копирует часть существующей последовательности
+    // vector<double> ud
+    vector<double> ud(vd.begin(), vd.begin() + 3);
+    pr(ud, "Copy part");
 
-    // // Создайте вектор вещественных, который является копией части обычного массива.
-    // double ar[] = {0., 1., 2., 3., 4., 5.};
+    // Создайте вектор вещественных, который является копией части обычного массива.
+    double ar[] = {0., 1., 2., 3., 4., 5.};
+    vector<double> va(ar + 1, ar + 4);
+    pr(va, "Copy part of array"); // * 1 2 3
 
-    // // vector<double> va
-    // pr(va, "Copy part of array");
+    // Создайте вектор символов, который является копией части обычной строки
+    char s[] = "Array is a succession of chars";
 
-    // // Создайте вектор символов, который является копией части обычной строки
-    // char s[] = "Array is a succession of chars";
+    vector<char> vc(s, s + 8); // * Array is
+    pr(vc, "Copy part of c-style string");
 
-    // // vector<char> vc
-    // pr(vc, "Copy part of c-style string");
+    // Создайте вектор элементов типа Vector и инициализируйте
+    // его вектором с координатами (1,1).
+    vector<Vector> vv(1, Vector(1., 1.));
 
-    // // Создайте вектор элементов типа Vector и инициализируйте
-    // // его вектором с координатами (1,1).
-    // // vector<Vector> vv
+    cout
+        << "\n\nvector of Vectors\n";
+    for (int i = 0; i < vv.size(); i++)
+        vv[i].Out();
+    cout << endl;
 
-    // cout << "\n\nvector of Vectors\n";
-    // for (int i = 0; i < vv.size(); i++)
-    //     vv[i].Out();
+    // Создайте вектор указателей на Vector и инициализируйте его адресами
+    // объектов класса Vector
+    Vector v1(1.1, 1.1);
+    Vector v2(2.2, 2.2);
+    Vector v3(3.3, 3.3);
+    vector<Vector *> vp;
+    vp.push_back(&v1);
+    vp.push_back(&v2);
+    vp.push_back(&v3);
 
-    // // Создайте вектор указателей на Vector и инициализируйте его адресами
-    // // объектов класса Vector
+    cout << "\n\nvector of pointers to Vector\n";
 
-    // // vector<Vector*> vp
+    for (int i = 0; i < vp.size(); i++)
+        vp[i]->Out();
+    cout << endl;
 
-    // cout << "\n\nvector of pointers to Vector\n";
+    // Научитесь пользоваться методом assign и операцией
+    // присваивания = для контейнеров типа vector.
+    vp.assign({&v1, &v3});
 
-    // for (i = 0; i < vp.size(); i++)
-    //     vp[i]->Out();
+    cout << "\n\nAfter assign\n";
+    for (int i = 0; i < vp.size(); i++)
+        vp[i]->Out();
+    cout << endl;
 
-    // // Научитесь пользоваться методом assign и операцией
-    // // присваивания = для контейнеров типа vector.
-    // // vp.assign
+    vector<Vector *> vp2 = vp;
 
-    // cout << "\n\nAfter assign\n";
-    // for (i = 0; i < vp.size(); i++)
-    //     vp[i]->Out();
+    cout << "\n\nAfter '='\n";
+    for (int i = 0; i < vp2.size(); i++)
+        vp2[i]->Out();
+    cout << endl;
 
-    // // Декларируйте новый вектор указателей на Vector и инициализируйте его
-    // // с помощью второй версии assign
-    // // vpNew.assign
+    // Декларируйте новый вектор указателей на Vector и инициализируйте его
+    // с помощью второй версии assign
 
-    // cout << "\n\nNew vector after assign\n";
-    // for (i = 0; i < vpNew.size(); i++)
-    //     vpNew[i]->Out();
+    vector<Vector *> vpNew;
+    vpNew.assign(3, &v3);
 
-    // // На базе шаблона vector создание двухмерный массив и
-    // // заполните его значениями разными способами.
-    // // Первый вариант - прямоугольная матрица
-    // // Второй вариант - ступенчатая матрица
+    cout << "\n\nNew vector after assign\n";
+    for (int i = 0; i < vpNew.size(); i++)
+        vpNew[i]->Out();
+    cout << endl;
 
-    // //========= Ступенчатая матрица
-    // // vector <vector
-    // for (i = 0; i < vdd.size(); i++)
-    //     vdd[i] = vector<double>(i + 1, double(i));
+    // На базе шаблона vector создание двухмерный массив и
+    // заполните его значениями разными способами.
+    // Первый вариант - прямоугольная матрица
+    // Второй вариант - ступенчатая матрица
 
-    // cout << "\n\n\tTest vector of vector<double>\n";
-    // for (i = 0; i < vdd.size(); i++)
-    // {
-    //     cout << endl;
-    //     for (int j = 0; j < vdd[i].size(); j++)
-    //         cout << vdd[i][j] << "  ";
-    // }
+    cout << PURPLE << "\n======== Rectangular Matrix ========\n"
+         << RESET << endl;
 
-    //
+    vector<vector<double>> rMatrix(4, vector<double>(5));
 
-    // //===================================
-    // // Простейшие действия с контейнерами
-    // //===================================
-    // // 3б. Получение значения первого и последнего элементов последовательности.
-    // // Получение размера последовательности. Присваивание значений
-    // // элементов одной последовательности элементам другой - assign().
+    // Fill
+    for (int i = 0; i < rMatrix.size(); i++)
+    {
+        for (int j = 0; j < rMatrix[i].size(); j++)
+        {
+            rMatrix[i][j] = i * 10 + j;
+        }
+    }
+    // Print
+    for (int i = 0; i < rMatrix.size(); i++)
+    {
+        for (int j = 0; j < rMatrix[i].size(); j++)
+        {
+            cout << setw(2) << rMatrix[i][j] << " ";
+        }
+        cout << endl;
+    }
 
-    // // Создайте и проинициализируйте вектор из элементов char. Размер -
-    // // по желанию.
+    //========= Ступенчатая матрица
+    cout << PURPLE << "\n======== Jugged Matrix ========\n"
+         << RESET << endl;
 
-    // // Создайте и проинициализируйте массив из элементов char. Размер -
-    // // по желанию.
+    vector<vector<double>> jMatrix(6, vector<double>(10));
 
-    // // Получите значение первого элемента вектора ( front() )
+    // Fill
+    for (int i = 0; i < jMatrix.size(); i++)
+    {
+        for (int j = i * 2; j < jMatrix[i].size(); j++)
+        {
+            jMatrix[i][j] = i * 10 + j + 1;
+        }
+    }
+    // Print
+    for (int i = 0; i < jMatrix.size(); i++)
+    {
+        for (int j = 0; j < jMatrix[i].size(); j++)
+        {
+            cout << setw(2) << jMatrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
 
-    // // Получите значение последнего элемента вектора ( back() )
+    //===================================
+    // Простейшие действия с контейнерами
+    //===================================
+    // 3б. Получение значения первого и последнего элементов последовательности.
+    // Получение размера последовательности. Присваивание значений
+    // элементов одной последовательности элементам другой - assign().
 
-    // // Получите размер вектора
+    cout << PURPLE << "======== Char container operations ========"
+         << RESET << endl;
 
-    // // Присвойте вектору любой диапазон из значений массива cMas.
+    // Создайте и проинициализируйте вектор из элементов char. Размер -
+    // по желанию.
 
-    // // Проверьте размер вектора, первый и последний элементы.
+    vector<char> vchar({'a', 'b', 'c', 'd'});
+    pr(vchar, "Vector of chars:");
 
-    //
+    // Создайте и проинициализируйте массив из элементов char. Размер -
+    // по желанию.
 
-    // // 3в. Доступ к произвольным элементам вектора с проверкой - at()
-    // // и без проверки - []
-    // // Создайте неинициализированный вектор из 8 элементов char - vChar2.
-    // // С помощью at() присвойте четным элементам вектора значения
-    // // элементов vChar1 из предыдущего задания,
-    // // а с помощью [] присвойте нечетным элементам вектора vChar2 значения
-    // // массива {'K','U','K','U'}.
+    char cMas[] = {'A', 'B', 'C', 'D'};
+    cout << BLUE << "Array of chars: " << RESET;
+    for (int i = 0; i < sizeof(cMas) / sizeof(cMas[0]); i++)
+    {
+        cout << cMas[i] << " ";
+    }
+    cout << endl;
 
-    //
-    // // Попробуйте "выйти" за границы вектора с помощью at() и
-    // // с помощью []. Обратите внимание: что происходит при
-    // // попытке обращения к несуществующему элементу в обоих случаях
+    // Получите значение первого элемента вектора ( front() )
 
-    //
+    cout << BLUE << "First element of vchar: " << RESET << vchar.front() << endl;
 
-    // // 3г.Добавьте в конец вектора vChar2  - букву Z (push_back()). Для
-    // // расширения кругозора можете ее сразу же и выкинуть (pop_back())
+    // Получите значение последнего элемента вектора ( back() )
 
-    //
+    cout << BLUE << "Last element of vchar: " << RESET << vchar.back() << endl;
 
-    // // 3д. Вставка-удаление элемента последовательности insert() - erase()
-    // // Очистка последовательности - clear()
+    // Получите размер вектора
 
-    // // Вставьте перед каждым элементом вектора vChar2 букву 'W'
+    cout << BLUE << "Size of vchar: " << RESET << vchar.size() << endl;
 
-    // // Вставьте перед 5-ым элементом вектора vChar2 3 буквы 'X'
+    // Присвойте вектору любой диапазон из значений массива cMas.
 
-    // // Вставьте перед 2-ым элементом вектора vChar2 с третьего по
-    // // шестой элементы массива "aaabbbccc"
+    vchar.assign(cMas + 1, cMas + 3);
+    pr(vchar, "Vector of chars after assign");
 
-    // // Сотрите c первого по десятый элементы vChar2
+    // Проверьте размер вектора, первый и последний элементы.
+    cout << BLUE << "First element of vchar: " << RESET << vchar.front() << endl;
+    cout << BLUE << "Last element of vchar: " << RESET << vchar.back() << endl;
+    cout << BLUE << "Size of vchar: " << RESET << vchar.size() << endl;
 
-    //
+    // 3в. Доступ к произвольным элементам вектора с проверкой - at()
+    // и без проверки - []
+    // Создайте неинициализированный вектор из 8 элементов char - vChar2.
+    // С помощью at() присвойте четным элементам вектора значения
+    // элементов vChar1 из предыдущего задания,
+    // а с помощью [] присвойте нечетным элементам вектора vChar2 значения
+    // массива {'K','U','K','U'}.
 
-    // // Уничтожьте все элементы последовательности - clear()
+    cout << PURPLE << "\n======== Vector at() vs [] ========\n"
+         << RESET << endl;
 
-    //
+    vector<char> vChar1 = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
+    char chars1[] = {'K', 'U', 'K', 'U'};
 
-    // // Создание двухмерного массива
+    vector<char> vChar2(8);
 
-    //
+    for (int i = 0; i < vChar2.size(); i++)
+    {
+        if (i % 2 == 0)
+            vChar2.at(i) = vChar1.at(i);
+        else
+            vChar2[i] = chars1[i / 2];
+    }
 
-    // ///////////////////////////////////////////////////////////////////
-    // /*
-    //     //Задание 4. Списки. Операции, характерные для списков.
-    //     //Создайте два пустых списка из элементов Vector - ptList1 и
-    //     //ptList2
+    pr(vChar2, "vChar2 after manipulations");
 
-    //     //Наполните оба списка значениями с помощью методов push_back(),
-    //     //push_front, insrert()
+    // Попробуйте "выйти" за границы вектора с помощью at() и
+    // с помощью []. Обратите внимание: что происходит при
+    // попытке обращения к несуществующему элементу в обоих случаях
 
-    //     //Отсортируйте списки - sort().
-    //     //Подсказка: для того, чтобы работала сортировка, в классе Vector
-    //     //должен быть переопределен оператор "<"
+    // cout << vChar2.at(100) << endl; //! libc++abi: terminating due to uncaught exception of type std::out_of_range: vector
+    // * at() проверяет индекс на выход за границы и выбрасывает std::out_of_range | работает медленнее []
 
-    //
+    // cout << vChar2[100] << endl; //! WRONG
+    // * [] все работает без ошибок, НО НЕОПРЕДЕЛЕННОЕ ПОВЕДЕНИЕ | работает быстрее at()
 
-    //     //Объедините отсортированные списки - merge(). Посмотрите: что
-    //     //при этом происходит со вторым списком.
+    // 3г.Добавьте в конец вектора vChar2  - букву Z (push_back()). Для
+    // расширения кругозора можете ее сразу же и выкинуть (pop_back())
 
-    //
+    vChar2.push_back('Z');
+    pr(vChar2, "bChar2 after push_back('Z')");
+    vChar2.pop_back();
+    pr(vChar2, "vChar2 after pop_back()");
 
-    //     //Исключение элемента из списка - remove()
-    //     //Исключите из списка элемент с определенным значением.
-    //     //Подсказка: для этого необходимо также переопределить
-    //     //в классе Vector оператор "=="
+    // 3д. Вставка-удаление элемента последовательности insert() - erase()
+    // Очистка последовательности - clear()
 
-    //
-    // */
-    // ///////////////////////////////////////////////////////////////////
-    // /*
-    //     //Задание 5. Стандартные алгоритмы.Подключите заголовочный файл
-    //     // <algorithm>
-    //     //5а. Выведите на экран элементы ptList1 из предыдущего
-    //     //задания с помощью алгоритма for_each()
+    cout << PURPLE << "\n======== Insert, Erase and Clear Operations ========\n"
+         << RESET << endl;
+
+    // Вставьте перед каждым элементом вектора vChar2 букву 'W'
+
+    for (int i = vChar2.size() - 1; i >= 0; i--)
+    {
+        vChar2.insert(vChar2.begin() + i, 'W');
+    }
+
+    pr(vChar2, "vChar2 after 'W' insert");
+
+    // Вставьте перед 5-ым элементом вектора vChar2 3 буквы 'X'
+    vChar2.insert(vChar2.begin() + 4, 3, 'X');
+
+    pr(vChar2, "vChar2 after x3 'X' insert");
+
+    // Вставьте перед 2-ым элементом вектора vChar2 с третьего по
+    // шестой элементы массива "aaabbbccc"
+    char arc[] = "aaabbbccc";
+
+    vChar2.insert(vChar2.begin() + 1, arc + 2, arc + 6);
+
+    pr(vChar2, "vChar2 array insert");
+
+    // Сотрите c первого по десятый элементы vChar2
+    vChar2.erase(vChar2.begin(), vChar2.begin() + 10);
+
+    pr(vChar2, "vChar2 array after erase");
+    // Уничтожьте все элементы последовательности - clear()
+
+    vChar2.clear();
+    pr(vChar2, "vChar2 array after clear");
+
+    // Создание двухмерного массива
+
+    /*
+        Задание 4. Списки. Операции, характерные для списков.
+        Создайте два пустых списка из элементов Vector - ptList1 и
+        ptList2
+
+        Наполните оба списка значениями с помощью методов push_back(),
+        push_front, insert()
+
+        Отсортируйте списки - sort().
+        Подсказка: для того, чтобы работала сортировка, в классе Vector
+        должен быть переопределен оператор "<"
+
+        Объедините отсортированные списки - merge(). Посмотрите: что
+        при этом происходит со вторым списком.
+        * Второй список обнуляется
+
+        Исключение элемента из списка - remove()
+        Исключите из списка элемент с определенным значением.
+        Подсказка: для этого необходимо также переопределить
+        в классе Vector оператор "=="
+    */
+
+    cout << PURPLE << "\n======== Lists ========\n"
+         << RESET << endl;
+
+    list<Vector> ptList1;
+    list<Vector> ptList2;
+
+    ptList1.push_back(Vector(1.1, 1.11));
+    ptList1.push_front(Vector(11.1, 11.11));
+    ptList1.insert(++ptList1.begin(), Vector(111.1, 111.11));
+
+    ptList2.push_back(Vector(2.2, 2.22));
+    ptList2.push_front(Vector(22.2, 22.22));
+    ptList2.insert(++ptList2.begin(), Vector(222.2, 222.22));
+
+    printList(ptList1, "ptList1 after initializing:");
+    printList(ptList2, "ptList2 after initializing:");
+
+    // Sorting
+    ptList1.sort();
+    ptList2.sort();
+
+    printList(ptList1, "ptList1 after sorting:");
+    printList(ptList2, "ptList2 after sorting:");
+
+    // Merging
+    ptList1.merge(ptList2);
+    printList(ptList1, "ptList1 after merging:");
+    printList(ptList2, "ptList2 after merging:"); // * empty
+
+    ptList1.push_back(Vector(1, 1));
+    ptList1.push_back(Vector(1, 1));
+
+    printList(ptList1, "ptList1 before removing Vector(1,1)");
+
+    ptList1.remove(Vector(1, 1));
+    printList(ptList1, "ptList1 after removing Vector(1,1)");
+
+    // Задание 5. Стандартные алгоритмы.Подключите заголовочный файл
+    //  <algorithm>
+    // 5а. Выведите на экран элементы ptList1 из предыдущего
+    // задания с помощью алгоритма for_each()
 
     //
 
@@ -391,8 +566,6 @@ int main()
     //     //которые совпадают с заданной строкой. Подсказка: смотри тему
     //     //объекты-функции
 
-    //
-    // */
-
-    // cout << "\n\n";
+    cout
+        << "\n\n";
 }

@@ -1,9 +1,12 @@
 #pragma once
 #include <iostream>
+#include <iomanip>
 
 using std::cin;
 using std::cout;
 using std::endl;
+
+using std::setw;
 
 #define RESET "\033[0m"
 #define GREEN "\033[32m"

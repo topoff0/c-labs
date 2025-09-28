@@ -19,7 +19,7 @@ Vector::Vector(const Vector &v)
 
 bool Vector::Equals(const Vector &other)
 {
-    return x == other.x && y == other.y;
+    return fabs(!(*this) - !other) < __DBL_EPSILON__;
 }
 
 double Vector::operator*(Vector &other) const
@@ -43,7 +43,7 @@ void Vector::Move(Vector &v)
     y += v.GetY();
 }
 
-void Vector::Out()
+void Vector::Out() const
 {
     cout << "\nVector:  x = " << x << ",  y = " << y;
 }
@@ -84,7 +84,12 @@ bool Vector::operator>(const Vector &other) const
 
 bool Vector::operator==(const Vector &other) const
 {
-    return fabs(!(*this) - !other) < __DBL_EPSILON__;
+    return x == other.x && y == other.y;
+}
+
+bool Vector::operator<(const Vector &other) const
+{
+    return !(*this) < !other;
 }
 
 Vector Vector::operator*(double scalar) const

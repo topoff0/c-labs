@@ -19,7 +19,7 @@ public:
     double GetY();
 
     void Move(Vector &v);
-    void Out();
+    void Out() const;
     double Area();
 
     ~Vector();
@@ -33,6 +33,7 @@ public:
 
     bool operator>(const Vector &other) const;
     bool operator==(const Vector &other) const;
+    bool operator<(const Vector &other) const;
 
     Vector operator*(double scalar) const;
     double operator*(Vector &other) const;

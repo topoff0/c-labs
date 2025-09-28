@@ -21,7 +21,7 @@ public:
     static void PrintCount();
 
     virtual void Move(Vector &v) = 0;
-    virtual void Out() = 0;
+    virtual void Out() const = 0;
     virtual double Area() = 0;
 
     // === Operator overloading ===

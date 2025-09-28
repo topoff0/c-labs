@@ -15,7 +15,7 @@ private:
 
 public:
     StackOutOfRange(int i) : index(i) {}
-    void Out()
+    void Out() const
     {
         cout << RED << "\nStack index out of range: " << index << RESET << endl;
     }
