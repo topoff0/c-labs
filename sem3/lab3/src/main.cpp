@@ -3,18 +3,20 @@
 //				Обработка исключений.
 //=======================================================================
 // Используйте недостающие файлы из лабораторной 2
+#include <algorithm>
+
 #include <string>
 #include <list>
+#include <vector>
 using std::list;
 using std::string;
+using std::vector;
 
 #include "MyVector.h"
 #include "MyString.h"
 #include "Config.h"
 #include "MyStack.h"
-
-#include <vector>
-using std::vector;
+#include "StringEquals.h"
 
 //============= Шаблон функции для вывода с помощью итератора
 template <class T>
@@ -50,6 +52,16 @@ void Swap(T &a, T &b)
     T temp = a;
     a = b;
     b = temp;
+}
+
+void callOut(const Vector &vec)
+{
+    vec.Out();
+}
+
+bool HasLargeCoord(const Vector &vec)
+{
+    return vec.GetX() > 2 && vec.GetY() > 2;
 }
 
 int main()
@@ -526,46 +538,113 @@ int main()
     //  <algorithm>
     // 5а. Выведите на экран элементы ptList1 из предыдущего
     // задания с помощью алгоритма for_each()
+    cout << PURPLE << "\n======== Standard algorithms ========\n"
+         << RESET << endl;
+    std::for_each(ptList1.begin(), ptList1.end(), callOut);
 
-    //
+    // 5б.С помощью алгоритма find() найдите итератор на элемент Vector с
+    // определенным значением. С помощью алгоритма find_if() найдите
+    // итератор на элемент, удовлетворяющий определенному условию,
+    // например, обе координаты точки должны быть больше 2.
+    // Подсказка: напишите функцию-предикат, которая проверяет условие
+    // и возвращает boolean-значение (предикат может быть как глобальной
+    // функцией, так и методом класса)
 
-    //     //5б.С помощью алгоритма find() найдите итератор на элемент Vector с
-    //     //определенным значением. С помощью алгоритма find_if() найдите
-    //     //итератор на элемент, удовлетворяющий определенному условию,
-    //     //например, обе координаты точки должны быть больше 2.
-    //     //Подсказка: напишите функцию-предикат, которая проверяет условие
-    //     //и возвращает boolean-значение (предикат может быть как глобальной
-    //     //функцией, так и методом класса)
+    list<Vector>::iterator it = std::find(ptList1.begin(), ptList1.end(), Vector(2.2, 2.22));
+    cout << BLUE << "\nFound element by find(): " << RESET;
+    it->Out();
+    cout << endl;
 
-    //
+    list<Vector>::iterator it_if = std::find_if(ptList1.begin(), ptList1.end(), HasLargeCoord);
+    cout << BLUE << "\nFound element by find_if(): " << RESET;
+    it->Out();
+    cout << endl;
+    cout << endl;
 
-    //     //Создайте список из указателей на элеметы Vector. С помощью
-    //     //алгоритма find_if() и предиката (можно использовать предикат -
-    //     //метод класса Vector, определенный в предыдущем задании) найдите в
-    //     //последовательности элемент, удовлетворяющий условию
+    // Создайте список из указателей на элементы Vector. С помощью
+    // алгоритма find_if() и предиката (можно использовать предикат -
+    // метод класса Vector, определенный в предыдущем задании) найдите в
+    // последовательности элемент, удовлетворяющий условию
+    Vector vv1(0.5, 0.5);
+    Vector vv2(1., 1.);
+    Vector vv3(1.5, 1.5);
+    Vector vv4(2., 2.);
+    Vector vv5(5.5, 5.5);
 
-    //
+    std::list<Vector *> ptrList;
+    ptrList.push_back(&vv1);
+    ptrList.push_back(&vv2);
+    ptrList.push_back(&vv3);
+    ptrList.push_back(&vv4);
+    ptrList.push_back(&vv5);
 
-    //     //5в. Создайте список элементов Vector. Наполните список
-    //     //значениями. С помощью алгоритма replace() замените элемент
-    //     //с определенным значением новым значением. С помощью алгоритма
-    //     //replace_if() замените элемент, удовлетворяющий какому-либо
-    //     //условию на определенное значение. Подсказка: условие
-    //     //задается предикатом.
+    auto itp = std::find_if(ptrList.begin(), ptrList.end(), [](const Vector *v)
+                            { return v->CoordGraterThan(5); });
 
-    //   //Сформировали значения элементов списка
+    if (itp != ptrList.end())
+    {
+        cout << BLUE << "Element found: " << RESET << endl;
+        (*itp)->Out();
+    }
+    else
+    {
+        cout << RED << "Element not found" << RESET << endl;
+    }
 
-    //
+    // 5в. Создайте список элементов Vector. Наполните список
+    // значениями. С помощью алгоритма replace() замените элемент
+    // с определенным значением новым значением. С помощью алгоритма
+    // replace_if() замените элемент, удовлетворяющий какому-либо
+    // условию на определенное значение. Подсказка: условие
+    // задается предикатом.
 
-    //     //5г. Создайте вектор строк (string). С помощью алгоритма count()
-    //     //сосчитайте количество одинаковых строк. С помощью алгоритма
-    //     //count_if() сосчитайте количество строк, начинающихся с заданной
-    //     //буквы
+    cout << PURPLE << "\n======== Replace in list ========" << RESET << "\n\n";
+    list<Vector> vList = {{1, 1}, {2, 2}, {3.3, 3.3}, {5.1, 5.6}, {21.4, 43.1}};
 
-    //     //5д. С помощью алгоритма count_if() сосчитайте количество строк,
-    //     //которые совпадают с заданной строкой. Подсказка: смотри тему
-    //     //объекты-функции
+    printList(vList, "Current elements in list");
 
-    cout
-        << "\n\n";
+    cout << "\nReplace 2nd element with Vector(123, 123):" << endl;
+    std::replace(vList.begin(), vList.end(), Vector(2, 2), Vector(123, 123));
+
+    printList(vList, "Elements in list after replace()");
+
+    std::replace_if(vList.begin(), vList.end(), [](const Vector &v)
+                    { return v.CoordGraterThan(5); }, Vector(0, 0));
+    printList(vList, "Elements in list after replace_if() elements grater than 5");
+
+    // 5г. Создайте вектор строк (string). С помощью алгоритма count()
+    // сосчитайте количество одинаковых строк. С помощью алгоритма
+    // count_if() сосчитайте количество строк, начинающихся с заданной
+    // буквы
+    cout << PURPLE << "\n======== Count in strings ========" << RESET << "\n\n";
+
+    vector<string> strings = {"first",
+                              "first",
+                              "first",
+                              "second",
+                              "second",
+                              "thrid",
+                              "fourth",
+                              "fifth",
+                              "sixth",
+                              "seventh"};
+    cout << BLUE << "Count of equals 'first' strings: " << RESET
+         << std::count(strings.begin(), strings.end(), "first") << endl;
+
+    char letter = 's';
+    cout << BLUE << "Count of strings begins with " << letter << ": " << RESET
+         << std::count_if(strings.begin(), strings.end(), [letter](const string &s)
+                          { return !s.empty() && s[0] == letter; })
+         << endl;
+
+    // 5д. С помощью алгоритма count_if() сосчитайте количество строк,
+    // которые совпадают с заданной строкой. Подсказка: смотри тему
+    // объекты-функции
+
+    cout << PURPLE << "\n======== Operator() in strings ========" << RESET << "\n\n";
+
+    cout << BLUE << "Count of string with value 'first: " << RESET
+         << std::count_if(strings.begin(), strings.end(), StringEquals("first")) << endl;
+
+    cout << "\n\n";
 }

@@ -15,12 +15,12 @@ public:
 
     bool Equals(const Vector &other);
 
-    double GetX();
-    double GetY();
+    double GetX() const;
+    double GetY() const;
 
     void Move(Vector &v);
     void Out() const;
-    double Area();
+    double Area() const;
 
     ~Vector();
 
@@ -39,4 +39,6 @@ public:
     double operator*(Vector &other) const;
 
     friend Vector operator*(double scalar, const Vector &v);
+
+    bool CoordGraterThan(const double value) const;
 };

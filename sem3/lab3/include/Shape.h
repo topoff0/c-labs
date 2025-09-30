@@ -22,7 +22,7 @@ public:
 
     virtual void Move(Vector &v) = 0;
     virtual void Out() const = 0;
-    virtual double Area() = 0;
+    virtual double Area() const = 0;
 
     // === Operator overloading ===
 };

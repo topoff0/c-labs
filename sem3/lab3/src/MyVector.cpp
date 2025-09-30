@@ -27,12 +27,17 @@ double Vector::operator*(Vector &other) const
     return x * other.x + y * other.y;
 }
 
-double Vector::GetX()
+bool Vector::CoordGraterThan(const double value) const
+{
+    return x > value && y > value;
+}
+
+double Vector::GetX() const
 {
     return x;
 }
 
-double Vector::GetY()
+double Vector::GetY() const
 {
     return y;
 }
@@ -48,7 +53,7 @@ void Vector::Out() const
     cout << "\nVector:  x = " << x << ",  y = " << y;
 }
 
-double Vector::Area()
+double Vector::Area() const
 {
     return 0.0;
 }
