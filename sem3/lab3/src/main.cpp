@@ -17,6 +17,7 @@ using std::vector;
 #include "Config.h"
 #include "MyStack.h"
 #include "StringEquals.h"
+#include "myclass.h"
 
 //============= Шаблон функции для вывода с помощью итератора
 template <class T>
@@ -66,6 +67,9 @@ bool HasLargeCoord(const Vector &vec)
 
 int main()
 {
+
+    myClass ms;
+    pr(ms, "My class with custom iterator");
 
     //===========================================================
     // Шаблоны функций
@@ -279,6 +283,8 @@ int main()
         vp2[i]->Out();
     cout << endl;
 
+    // * assign: отчищает контейнер и записывает новые; не меняет capacity
+    // * =: копирует другой контейнер
     // Декларируйте новый вектор указателей на Vector и инициализируйте его
     // с помощью второй версии assign
 
@@ -599,11 +605,11 @@ int main()
     // задается предикатом.
 
     cout << PURPLE << "\n======== Replace in list ========" << RESET << "\n\n";
-    list<Vector> vList = {{1, 1}, {2, 2}, {3.3, 3.3}, {5.1, 5.6}, {21.4, 43.1}};
+    list<Vector> vList = {{1, 1}, {2, 2}, {2, 2}, {3.3, 3.3}, {5.1, 5.6}, {21.4, 43.1}};
 
     printList(vList, "Current elements in list");
 
-    cout << "\nReplace 2nd element with Vector(123, 123):" << endl;
+    cout << "\nReplace all Vector(2,2) with Vector(123, 123):" << endl;
     std::replace(vList.begin(), vList.end(), Vector(2, 2), Vector(123, 123));
 
     printList(vList, "Elements in list after replace()");
@@ -643,7 +649,7 @@ int main()
 
     cout << PURPLE << "\n======== Operator() in strings ========" << RESET << "\n\n";
 
-    cout << BLUE << "Count of string with value 'first: " << RESET
+    cout << BLUE << "Count of string with value 'first': " << RESET
          << std::count_if(strings.begin(), strings.end(), StringEquals("first")) << endl;
 
     cout << "\n\n";
